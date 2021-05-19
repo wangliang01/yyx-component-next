@@ -1,18 +1,14 @@
 <template>
   <div class="main-app">
-    <ButtonPage></ButtonPage>
+    <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import ButtonPage from '../components/Button.vue'
 export default defineComponent({
   name: '',
   props: {
-  },
-  components: {
-    ButtonPage
   },
   setup() {
     const componentId = ref('ButtonPage')

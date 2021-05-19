@@ -1,6 +1,6 @@
 <template>
   <div class="side-bar">
-    <el-menu>
+    <el-menu router>
       <el-menu-item>
         按钮
       </el-menu-item>
