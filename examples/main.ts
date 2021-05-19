@@ -3,6 +3,8 @@ import App from './App.vue'
 import ElementUI from 'element-plus'
 import yui from '../dist/yui.es'
 import 'element-plus/lib/theme-chalk/index.css';
+// 引入iconfont
+import './assets/font/iconfont.css'
 
 console.log('yui', yui);
 
