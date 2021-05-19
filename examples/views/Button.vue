@@ -10,7 +10,7 @@
       <y-button type="primary">主要按钮</y-button>
       <y-button type="success">成功按钮</y-button>
       <y-button type="info">信息按钮</y-button>
-      <y-button type="warn">警告按钮</y-button>
+      <y-button type="warning">警告按钮</y-button>
       <y-button type="danger">危险按钮</y-button>
     </div>
     <div class="row">
@@ -28,7 +28,7 @@
         plain
       >信息按钮</y-button>
       <y-button
-        type="warn"
+        type="warning"
         plain
       >警告按钮</y-button>
       <y-button
@@ -51,7 +51,7 @@
         round
       >信息按钮</y-button>
       <y-button
-        type="warn"
+        type="warning"
         round
       >警告按钮</y-button>
       <y-button
@@ -80,7 +80,7 @@
         circle
       ></y-button>
       <y-button
-        type="warn"
+        type="warning"
         icon="el-icon-star-off"
         circle
       ></y-button>
@@ -111,7 +111,7 @@
       >信息按钮</y-button>
       <y-button
         disabled
-        type="warn"
+        type="warning"
       >警告按钮</y-button>
       <y-button
         disabled
@@ -141,7 +141,7 @@
       <y-button
         plain
         disabled
-        type="warn"
+        type="warning"
       >警告按钮</y-button>
       <y-button
         plain
