@@ -1,8 +1,10 @@
 <template>
   <div class="side-bar">
-    <el-menu router :default-active="route.path">
-      <el-menu-item v-for="item in menuList" :key="item.path" :index="item.path">
-        {{item.meta && item.meta.title}}
+    <el-menu router :default-active="route.path" active-text-color="#409EFF">
+      <el-menu-item v-for="item in menuList" :key="item.path" :index="item.path" :route="item">
+        <template #title>
+          {{item.meta && item.meta.title}}
+        </template>
       </el-menu-item>
     </el-menu>
   </div>
