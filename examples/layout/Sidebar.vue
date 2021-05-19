@@ -1,18 +1,17 @@
 <template>
   <div class="side-bar">
-    <el-menu router>
-      <el-menu-item>
-        按钮
-      </el-menu-item>
-      <el-menu-item>
-        批量导入
+    <el-menu router :default-active="route.path">
+      <el-menu-item v-for="item in menuList" :key="item.path" :index="item.path">
+        {{item.meta && item.meta.title}}
       </el-menu-item>
     </el-menu>
   </div>
 </template>
 
 <script lang="ts">
+import {routes} from '../router'
 import { defineComponent } from 'vue'
+import { useRoute } from 'vue-router'
 export default defineComponent({
   name: 'Sidebar',
   props: {
@@ -20,8 +19,11 @@ export default defineComponent({
   components: {
   },
   setup() {
+    const menuList = routes.filter(route => route.name)
+    const route = useRoute()
     return {
-
+      menuList,
+      route
     }
   },
 })

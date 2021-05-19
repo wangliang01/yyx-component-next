@@ -11,9 +11,7 @@ export default defineComponent({
   props: {
   },
   setup() {
-    const componentId = ref('ButtonPage')
     return {
-      componentId
     }
   },
 })
