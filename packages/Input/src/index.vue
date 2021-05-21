@@ -36,16 +36,6 @@ export default defineComponent({
     precision: {
       type: [Number, String],
       default: 2
-    },
-    /* 最小值 */
-    min: {
-      type: [Number, String],
-      default: 0
-    },
-    /* 最大值 */
-    max: {
-      type: [Number, String],
-      default: Infinity
     }
   },
   components: {
