@@ -106,21 +106,17 @@ export default defineComponent({
             const matchesFloat = val.match(floatReg)
             // 整数匹配值
             const matchesInt = val.match(intReg)
-            console.log("matchesFloat", matchesFloat);
 
             // 判断浮点数匹配值
             if (matchesFloat) {
               if (numberReg.test(matchesFloat[0])) {
-                console.log("numberReg.test(matchesFloat)", numberReg.test(matchesFloat[0]));
                 if (matchesInt) {
-                  console.log("matchesInt", matchesFloat);
                   // 整数匹配值存在
                   emit('update:modelValue', matchesInt[0])
                 } else {
                   emit('update:modelValue', matchesFloat[0].slice(0, -1))
                 }
               } else {
-                console.log("numberReg", numberReg.test(matchesFloat[0]));
                 if (props.number) {
                   // 含有小数点
                   emit('update:modelValue', matchesFloat[0])
