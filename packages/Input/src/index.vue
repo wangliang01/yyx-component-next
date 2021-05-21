@@ -4,11 +4,13 @@
     :clearable="$attrs.clearable === undefined ? true : $attrs.clearable"
     v-bind="$attrs"
     @input="handleInputEvent"
+    @blur="handleBlurEvent"
   ></el-input>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, nextTick } from 'vue'
+import { isLessThan } from '../../utils/bigNumber'
 export default defineComponent({
   name: 'YInput',
   props: {
@@ -36,6 +38,16 @@ export default defineComponent({
     precision: {
       type: [Number, String],
       default: 2
+    },
+    /* 最小值 */
+    min: {
+      type: [Number, String],
+      default: 0
+    },
+    /* 最大值 */
+    max: {
+      type: [Number, String],
+      default: Infinity
     }
   },
   components: {
@@ -66,6 +78,24 @@ export default defineComponent({
         reg = new RegExp(`^(([1-9]{1}\\d{0,${integerDigit - 1})|(0{1}))$`)
       }
       handleInputValue(val, reg)
+    }
+
+    // 失焦的处理
+    const handleBlurEvent = () => {
+      const min = props.min
+      const max = props.max
+      nextTick(() => {
+        if (min && isLessThan(currentValue.value, min)) {
+          // 如果传入min,且不为0时,并且val小于min时
+          emit('update:modelValue', min)
+        } else if (max && isLessThan(max, currentValue.value)) {
+          // 如果传入max,,并且val大于min时
+          emit('update:modelValue', max)
+        } else {
+          // 没有min,或者max
+          emit('update:modelValue', currentValue.value)
+        }
+      })
     }
 
     // 处理精度传入非法字符
@@ -138,7 +168,8 @@ export default defineComponent({
 
     return {
       currentValue,
-      handleInputEvent
+      handleInputEvent,
+      handleBlurEvent
     }
   },
 })

@@ -7,6 +7,8 @@
     <y-input
       v-model="value"
       number
+      max="100"
+      min="90"
       placeholder="请输入内容"
     ></y-input>
   </section>
