@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Button from '../views/Button.vue'
 import BatchImport from '../views/BatchImport.vue'
 import Input from '../views/Input.vue'
+import AddressCascader from '../views/AddressCascader.vue'
 // 定义路由
 export const routes = [
   {
@@ -30,6 +31,14 @@ export const routes = [
     component: Input,
     meta: {
       title: 'Input输入框'
+    }
+  },
+  {
+    path: '/address-cascader',
+    name: 'AddressCascader',
+    component: AddressCascader,
+    meta: {
+      title: 'AddressCascader地址级联选择器'
     }
   }
 ]
