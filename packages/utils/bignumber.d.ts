@@ -1,0 +1,1 @@
+export declare var isLessThan: (x: number | string, y: number | string) => any

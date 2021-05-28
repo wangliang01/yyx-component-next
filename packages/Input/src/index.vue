@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick } from 'vue'
+import { computed, defineComponent, nextTick, ref } from 'vue'
 import { isLessThan } from '../../utils/bigNumber'
 export default defineComponent({
   name: 'YInput',
@@ -53,6 +53,7 @@ export default defineComponent({
   components: {
   },
   setup(props, { emit }) {
+
     let precision: number = Number(props.precision)
     // 精度传入不正确时，修正为2
     const dealPrecision = () => {
@@ -85,15 +86,20 @@ export default defineComponent({
       const min = props.min
       const max = props.max
       nextTick(() => {
+        console.log("currentValue", typeof currentValue.value);
+
         if (min && isLessThan(currentValue.value, min)) {
           // 如果传入min,且不为0时,并且val小于min时
           emit('update:modelValue', min)
+          prevValue.value = min
         } else if (max && isLessThan(max, currentValue.value)) {
           // 如果传入max,,并且val大于min时
           emit('update:modelValue', max)
+          prevValue.value = max
         } else {
           // 没有min,或者max
           emit('update:modelValue', currentValue.value)
+          prevValue.value = currentValue.value
         }
       })
     }
@@ -110,6 +116,8 @@ export default defineComponent({
         handleInputValue(val)
       }
     })
+
+    const prevValue = ref(currentValue.value) // 上一次的值
 
     // 处理输入的值
     const handleInputValue = (val: string | number, reg?: RegExp) => {
@@ -143,15 +151,19 @@ export default defineComponent({
                 if (matchesInt) {
                   // 整数匹配值存在
                   emit('update:modelValue', matchesInt[0])
+                  prevValue.value = matchesInt[0]
                 } else {
-                  emit('update:modelValue', matchesFloat[0].slice(0, -1))
+                  // 不匹配就取上一次的值
+                  emit('update:modelValue', prevValue.value)
                 }
               } else {
                 if (props.number) {
                   // 含有小数点
                   emit('update:modelValue', matchesFloat[0])
+                  prevValue.value = matchesFloat[0]
                 } else {
-                  emit('update:modelValue', matchesFloat[0].slice(0, -1))
+                  // 不匹配就取上一次的值
+                  emit('update:modelValue', prevValue.value)
                 }
               }
             } else {

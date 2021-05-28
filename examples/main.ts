@@ -1,9 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import ElementUI from 'element-plus'
-import yui from '../dist/yui.es'
+import yui from '../packages'
 import 'element-plus/lib/theme-chalk/index.css'
-import '../dist/style.css'
 // 引入iconfont
 import './assets/font/iconfont.css'
 // 引入router
