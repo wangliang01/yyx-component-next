@@ -1,5 +1,6 @@
 <template>
   <el-cascader
+    v-bind="$attrs"
     :ref="cascader"
     v-model="currentValue"
     :options="options"
