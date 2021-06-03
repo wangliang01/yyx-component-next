@@ -2,10 +2,22 @@
   <h3>Cascader级联选择器</h3>
   <p class="desc">主要用于日常的导入，支持导入后编辑，支持输入框，选择框，日期组件。</p>
   <section class="section">
-    <y-cascader
-      v-model="value"
-      :data-api="dataApi"
-    ></y-cascader>
+    <h4>默认情况</h4>
+    <suspense>
+      <y-cascader
+        v-model="value"
+        :data-api="dataApi"
+      ></y-cascader>
+    </suspense>
+  </section>
+  <section class="section">
+    <h4>有默认值</h4>
+    <suspense>
+      <y-cascader
+        v-model="value1"
+        :data-api="dataApi"
+      ></y-cascader>
+    </suspense>
   </section>
 </template>
 
@@ -19,6 +31,7 @@ export default defineComponent({
   },
   setup() {
     const value = ref('')
+    const value1 = ref('Html')
     const dataApi = () => {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -41,6 +54,7 @@ export default defineComponent({
     }
     return {
       value,
+      value1,
       dataApi
     }
   },
@@ -48,5 +62,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
+h4 {
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: normal;
+}
 </style>
