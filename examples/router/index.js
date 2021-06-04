@@ -1,9 +1,10 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Button from '../views/Button.vue'
-import BatchImport from '../views/BatchImport.vue'
-import Input from '../views/Input.vue'
-import Cascader from '../views/Cascader.vue'
-import AddressCascader from '../views/AddressCascader.vue'
+const Button = () => import('../views/Button.vue')
+const BatchImport = () => import('../views/BatchImport.vue')
+const Input = () => import('../views/Input.vue')
+const Cascader = () => import('../views/Cascader.vue')
+const AddressCascader = () => import('../views/AddressCascader.vue')
+const CategoryCascader = () => import('../views/CategoryCascader.vue')
 // 定义路由
 export const routes = [
   {
@@ -48,6 +49,14 @@ export const routes = [
     component: AddressCascader,
     meta: {
       title: '地址级联选择器'
+    }
+  },
+  {
+    path: '/category-cascader',
+    name: 'CategoryCascader',
+    component: CategoryCascader,
+    meta: {
+      title: '品类级联选择器'
     }
   }
 ]

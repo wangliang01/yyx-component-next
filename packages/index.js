@@ -5,6 +5,7 @@ import BatchImport from './BatchImport'
 import Input from './Input'
 import Cascader from './Cascader'
 import AddressCascader from './AddressCascader'
+import CategoryCascader from './CategoryCascader'
 
 const install = (app) => {
   app.component(Button.name, Button)
@@ -12,6 +13,7 @@ const install = (app) => {
   app.component(Input.name, Input)
   app.component(Cascader.name, Cascader)
   app.component(AddressCascader.name, AddressCascader)
+  app.component(CategoryCascader.name, CategoryCascader)
 }
 
 export default {
@@ -20,5 +22,6 @@ export default {
   BatchImport,
   Input,
   Cascader,
-  AddressCascader
+  AddressCascader,
+  CategoryCascader
 }
