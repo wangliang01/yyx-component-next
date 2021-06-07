@@ -5,6 +5,7 @@ const Input = () => import('../views/Input.vue')
 const Cascader = () => import('../views/Cascader.vue')
 const AddressCascader = () => import('../views/AddressCascader.vue')
 const CategoryCascader = () => import('../views/CategoryCascader.vue')
+const Table = () => import('../views/Table.vue')
 // 定义路由
 export const routes = [
   {
@@ -57,6 +58,14 @@ export const routes = [
     component: CategoryCascader,
     meta: {
       title: '品类级联选择器'
+    }
+  },
+  {
+    path: '/table',
+    name: 'Table',
+    component: Table,
+    meta: {
+      title: '表格Table'
     }
   }
 ]

@@ -6,6 +6,7 @@ import Input from './Input'
 import Cascader from './Cascader'
 import AddressCascader from './AddressCascader'
 import CategoryCascader from './CategoryCascader'
+import Table from './Table'
 
 const install = (app) => {
   app.component(Button.name, Button)
@@ -14,6 +15,7 @@ const install = (app) => {
   app.component(Cascader.name, Cascader)
   app.component(AddressCascader.name, AddressCascader)
   app.component(CategoryCascader.name, CategoryCascader)
+  app.component(Table.name, Table)
 }
 
 export default {
@@ -23,5 +25,6 @@ export default {
   Input,
   Cascader,
   AddressCascader,
-  CategoryCascader
+  CategoryCascader,
+  Table
 }
