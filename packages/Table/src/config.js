@@ -1,4 +1,4 @@
-export const defaultTableAttrs = {
+export const getDefaultTableAttrs = () => ({
   data: null,
   height: null,
   'max-height': null,
@@ -32,9 +32,9 @@ export const defaultTableAttrs = {
   lazy: null,
   load: null,
   'tree-props': { hasChildren: 'hasChildren', children: 'children' }
-}
+})
 
-export const defaultColumn = {
+export const getDefaultColumn = () => ({
   type: null,
   index: null,
   'column-key': null,
@@ -62,9 +62,9 @@ export const defaultColumn = {
   'filter-multiple': true,
   'filter-method': null,
   'filtered-value': null
-}
+})
 
-export const defaultPagination = {
+export const getDefaultPagination = () => ({
   small: false,
   background: false,
   'page-size': 10,
@@ -79,4 +79,4 @@ export const defaultPagination = {
   'next-text': '',
   disabled: false,
   'hide-on-single-page': false
-}
+})

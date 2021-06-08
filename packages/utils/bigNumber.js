@@ -8,7 +8,7 @@ const BN = BigNumber.clone()
  * @param {*} y
  * @returns
  */
-function calculated(x, y) {
+export function calculated(x, y) {
   if (!x && x !== 0 || !y && y !== 0) {
     return true
   } else {
@@ -22,7 +22,7 @@ function calculated(x, y) {
  * @param {Boolean} isToFixed  true 代表返回
  * @returns
  */
-function multipliedBy(x, y, isToFixed = false) {
+ export function multipliedBy(x, y, isToFixed = false) {
   if (calculated(x, y)) {
     return
   }
@@ -40,7 +40,7 @@ function multipliedBy(x, y, isToFixed = false) {
  * @param {*} isToFixed  true 代表返回
  * @returns
  */
-function dividedBy(x, y, isToFixed = false) {
+ export function dividedBy(x, y, isToFixed = false) {
   if (calculated(x, y) && y !== 0 && y !== '0') {
     return
   }
@@ -57,7 +57,7 @@ function dividedBy(x, y, isToFixed = false) {
  * @param {*} y
  * @param {*} isToFixed  true 代表返回
  */
-function minus(x, y, isToFixed = false) {
+ export function minus(x, y, isToFixed = false) {
   if (calculated(x, y)) {
     return
   }
@@ -74,7 +74,7 @@ function minus(x, y, isToFixed = false) {
  * @param {*} y
  * @param {*} isToFixed  true 代表返回
  */
-function plus(x, y, isToFixed = false) {
+ export function plus(x, y, isToFixed = false) {
   if (calculated(x, y)) {
     return
   }
@@ -88,17 +88,10 @@ function plus(x, y, isToFixed = false) {
 /**
  * 比较大小
  */
-function isLessThan(x, y) {
+ export function isLessThan(x, y) {
   if (calculated(x, y)) {
     return
   }
   return BN(x).isLessThan(BN(y))
 }
-export {
-  multipliedBy,
-  dividedBy,
-  minus,
-  plus,
-  BN,
-  isLessThan
-}
+

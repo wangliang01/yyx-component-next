@@ -1,7 +1,8 @@
 <template>
-  <div class="table">
+  <div class="y-table" :key="key">
     <slot></slot>
     <el-table
+      ref="table"
       :key="key"
       v-bind="tableAttrs"
       :data="data"
@@ -25,12 +26,12 @@
 </template>
 
 <script lang="ts">
-import { defaultTableAttrs, defaultColumn, defaultPagination } from './config'
+import { getDefaultTableAttrs, getDefaultColumn, getDefaultPagination } from './config'
 import TableItem from './TableItem.vue'
-import { defineComponent, getCurrentInstance, ref, watch } from 'vue'
+import { defineComponent, getCurrentInstance, ref, watch, nextTick, ComponentInternalInstance, reactive, toRefs, onMounted } from 'vue'
 interface ITableColumn {
-  prop: string
-  label: string
+  prop?: string
+  label?: string
   [propName: string]: any
 }
 export default defineComponent({
@@ -74,8 +75,12 @@ export default defineComponent({
     TableItem
   },
   setup(props, { emit, attrs }) {
-    const instance = getCurrentInstance()
+    const instance = getCurrentInstance() as ComponentInternalInstance
     const key = ref(Math.random().toString(32).replace('.', ''))
+    const defaultTableAttrs = getDefaultTableAttrs()
+    const defaultPagination = getDefaultPagination()
+    const defaultColumn = getDefaultColumn()
+
     // 表格属性，同el-table上的属性
     const tableAttrs = ref(defaultTableAttrs)
     // 表格项属性， 同el-table-column上的属性
@@ -90,7 +95,6 @@ export default defineComponent({
     const total = ref((props as any).total)
     // 对分页属性，分页总数进行监听
     watch([pagination, total], (val, oldVal) => {
-      console.log(val, oldVal);
       getPagination()
     })
 
@@ -154,14 +158,117 @@ export default defineComponent({
       }
     }
 
-    const mergeElTableMethods = () => {
-      console.log("实例", instance);
+    const methods = reactive({})
 
+    const elTableMethods = ['clearSelection', 'toggleRowSelection', 'toggleAllSelection', 'toggleRowExpansion', 'setCurrentRow', 'clearSort', 'clearFilter', 'doLayout', 'sort']
+
+    let clearSelection = () => { 
+      nextTick(() => {
+        const elTableComponent = instance.refs.table as ComponentInternalInstance
+        elTableComponent['clearSelection'].call(null, arguments)
+      })
+    
+    }
+    let toggleRowSelection = (row) => { 
+      nextTick(() => {
+        const elTableComponent = instance.refs.table as ComponentInternalInstance
+        elTableComponent['toggleRowSelection'](row)
+      })
+    }
+    let toggleAllSelection = () => { 
+      nextTick(() => {
+        const elTableComponent = instance.refs.table as ComponentInternalInstance
+        elTableComponent['toggleAllSelection']()
+      })
+    }
+    let toggleRowExpansion = (row) => {
+      nextTick(() => {
+        const elTableComponent = instance.refs.table as ComponentInternalInstance
+        elTableComponent['toggleRowExpansion'](row)
+      })
+     }
+    let setCurrentRow = (row) => { 
+      // TODO: 暂时没有生效
+      nextTick(() => {
+        const elTableComponent = instance.refs.table as ComponentInternalInstance
+  
+        console.log("elTable", elTableComponent);
+        elTableComponent['setCurrentRow'](row)
+      })
+    }
+    let clearSort = () => { 
+      nextTick(() => {
+        const elTableComponent = instance.refs.table as ComponentInternalInstance
+        elTableComponent['clearSort']()
+      })
+    }
+    let clearFilter = (columnKey) => { 
+      nextTick(() => {
+        const elTableComponent = instance.refs.table as ComponentInternalInstance
+        elTableComponent['clearFilter'](columnKey)
+      })
+    }
+    let doLayout = () => { 
+      nextTick(() => {
+        const elTableComponent = instance.refs.table as ComponentInternalInstance
+        elTableComponent['doLayout']()
+      })
+    }
+    let sort = (prop, order) => { 
+      nextTick(() => {
+        const elTableComponent = instance.refs.table as ComponentInternalInstance
+        elTableComponent['sort'](prop, order)
+      })
+    }
+
+
+
+    const mergeElTableMethods = () => {
+      nextTick(() => {
+        const elTableComponent = instance.refs.table as ComponentInternalInstance
+        Object.keys(elTableComponent).forEach(key => {
+          switch (key) {
+            case 'clearSelection':
+              clearSelection = elTableComponent[key]
+              break;
+            case 'toggleRowSelection':
+              toggleRowSelection = elTableComponent[key]
+              break;
+            case 'toggleRowExpansion':
+              toggleRowExpansion = elTableComponent[key]
+              break;
+            case 'toggleAllSelection':
+              toggleAllSelection = elTableComponent[key]
+              break;
+            case 'setCurrentRow':
+              setCurrentRow = elTableComponent[key]
+              break;
+            case 'clearSort':
+              clearSort = elTableComponent[key]
+              break;
+            case 'clearFilter':
+              clearFilter = elTableComponent[key]
+              break;
+            case 'doLayout':
+              doLayout = elTableComponent[key]
+              break;
+            case 'sort':
+              sort = elTableComponent[key]
+              break;
+          }
+          if (elTableMethods.includes(key)) {
+            Object.getPrototypeOf(instance)[key] = elTableComponent[key]
+          }
+        })
+
+        console.log("methods", toRefs(methods));
+
+      })
     }
 
     const init = () => {
       // 解决y-table组件没有el-table中的相关方法问题
-      mergeElTableMethods()
+      // mergeElTableMethods()
 
       getTableAttrs()
 
@@ -170,7 +277,11 @@ export default defineComponent({
       getPagination()
     }
 
+    onMounted(() => {
+    })
     init()
+
+
 
     return {
       key,
@@ -180,7 +291,16 @@ export default defineComponent({
       columnAttrs,
       paginationAttrs,
       handleSizeChange,
-      handleCurrentChange
+      handleCurrentChange,
+      clearSelection,
+      toggleRowSelection,
+      toggleAllSelection,
+      toggleRowExpansion,
+      setCurrentRow,
+      clearSort,
+      clearFilter,
+      doLayout,
+      sort,
     }
   },
 })

@@ -19,9 +19,12 @@
     :filter-method="col.filterMethod || col['filter-method']"
     :filtered-value="col.filteredValue || col['filtered-value']"
   >
-    <template v-if="col.children && col.children.length" v-slot="{column}">
+    <template
+      v-if="col.children && col.children.length"
+      v-slot
+    >
       <TableItem
-        v-for="(item) in column.children"
+        v-for="(item) in col.children"
         :key="item.prop"
         :col="item"
         :column-key="item.columnKey || item['column-key']"

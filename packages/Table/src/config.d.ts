@@ -1,3 +1,3 @@
-export declare var defaultTableAttrs: any
-export declare var defaultColumn: any
-export declare var defaultPagination: any
+export declare var getDefaultTableAttrs: () => any
+export declare var getDefaultColumn: () => any
+export declare var getDefaultPagination: () => any
