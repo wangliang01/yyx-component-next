@@ -1,8 +1,17 @@
 <template>
   <!-- 没有render函数 -->
   <el-table-column
-    v-bind="col"
     v-if="!col.render"
+    :type="col.type"
+    :index="col.index"
+    :label="col.label"
+    :prop="col.prop"
+    :width="col.width"
+    :fixed="col.fixed"
+    :align="col.align"
+    :filters="col.filters"
+    :selectable="col.selectable"
+    :sortable="col.sortable"
     :column-key="col.columnKey || col['column-key']"
     :min-width="col.minWidth || col['min-width']"
     :render-header="col.renderHeader || col['render-header']"
@@ -20,8 +29,8 @@
     :filtered-value="col.filteredValue || col['filtered-value']"
   >
     <template
-      v-if="col.children && col.children.length"
       v-slot
+      v-if="col.children && col.children.length"
     >
       <TableItem
         v-for="(item) in col.children"
@@ -48,7 +57,16 @@
   <!-- 有render函数 -->
   <el-table-column
     v-else-if="col.render"
-    v-bind="col"
+    :type="col.type"
+    :index="col.index"
+    :label="col.label"
+    :prop="col.prop"
+    :width="col.width"
+    :fixed="col.fixed"
+    :align="col.align"
+    :filters="col.filters"
+    :selectable="col.selectable"
+    :sortable="col.sortable"
     :column-key="col.columnKey || col['column-key']"
     :min-width="col.minWidth || col['min-width']"
     :render-header="col.renderHeader || col['render-header']"

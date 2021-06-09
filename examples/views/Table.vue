@@ -292,11 +292,11 @@ export default defineComponent({
             h(ElButton, {
               type: 'text',
               size: 'small'
-            }, '查看'),
+            }, () => '查看'),
             h(ElButton, {
               type: 'text',
               size: 'small'
-            }, '编辑')
+            }, () => '编辑')
           ])
         }
       }
@@ -419,7 +419,7 @@ export default defineComponent({
         sortable: true,
         columnKey: 'date',
         filters: [{ text: '2016-05-01', value: '2016-05-01' }, { text: '2016-05-02', value: '2016-05-02' }, { text: '2016-05-03', value: '2016-05-03' }, { text: '2016-05-04', value: '2016-05-04' }],
-        filterMmethod(value, row, column) {
+        filterMethod(value, row, column) {
           console.log("filterMethod", value, row);
           
           const property = column['property'];
@@ -443,7 +443,7 @@ export default defineComponent({
         label: '标签',
         width: 100,
         filters: [{ text: '家', value: '家' }, { text: '公司', value: '公司' }],
-        filterMmethod(value, row) {
+        filterMethod(value, row) {
           console.log("filterMethod", value, row);
 
           return row.tag === value
@@ -453,7 +453,7 @@ export default defineComponent({
           return h(ElTag, {
             type: row.tag === '家' ? 'primary' : 'success',
             disableTransitions: true
-          }, row.tag)
+          }, () => row.tag)
         }
       }
     ])
@@ -466,7 +466,6 @@ export default defineComponent({
       (instance.refs.singleTable as any).setCurrentRow(row)
     }
     const tableRowClassName = ({ rowIndex }: IRowClassName) => {
-      console.log('tableRowClassName', rowIndex);
       if (rowIndex === 1) {
         return 'warning-row';
       } else if (rowIndex === 3) {
