@@ -153,11 +153,76 @@
       :columns="columns6"
     ></y-table>
   </section>
+  <!-- 自定义列模板-->
+  <h3>自定义列模板</h3>
+  <p class="desc">自定义列的显示内容，可组合其他组件使用。</p>
+  <section class="section">
+    <y-table
+      row-key="date"
+      max-height="250"
+      :data="tableData3"
+      :columns="columns7"
+    ></y-table>
+  </section>
+  <!-- 展开行-->
+  <h3>展开行</h3>
+  <p class="desc">当行内容过多并且不想显示横向滚动条时，可以使用 Table 展开行功能。</p>
+  <section class="section">
+    <y-table
+      :expand-row-keys="expendsRowKey"
+      :row-key="getRowKey"
+      :default-expand-all="false"
+      :data="tableData4"
+      :columns="columns8"
+    ></y-table>
+  </section>
+  <!-- 树形数据与懒加载-->
+  <h3>树形数据与懒加载</h3>
+  <el-table
+    :data="tableData5"
+    style="width: 100%;margin-bottom: 20px;"
+    row-key="id"
+    border
+    default-expand-all
+    :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+  >
+    <el-table-column
+      prop="date"
+      label="日期"
+      sortable
+      width="180"
+    >
+    </el-table-column>
+    <el-table-column
+      prop="name"
+      label="姓名"
+      sortable
+      width="180"
+    >
+    </el-table-column>
+    <el-table-column
+      prop="address"
+      label="地址"
+    >
+    </el-table-column>
+  </el-table>
+  <!-- eslint-disable -->
+  <section class="section">
+    <y-table
+      style="width: 100%;margin-bottom: 20px;"
+      row-key="id"
+      border
+      default-expand-all
+      :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+      :data="tableData5"
+      :columns="columns9"
+    ></y-table>
+  </section>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, reactive, ref, ComponentInternalInstance } from 'vue'
-import { ElButton, ElTag } from 'element-plus'
+import { defineComponent, getCurrentInstance, reactive, ref, ComponentInternalInstance, withCtx } from 'vue'
+import { ElButton, ElTag, ElPopover, ElForm, ElFormItem } from 'element-plus'
 interface IRowClassName {
   row: object,
   rowIndex: number
@@ -168,7 +233,7 @@ export default defineComponent({
   },
   components: {
   },
-  setup() {
+  setup(props, { slots }) {
     const instance = getCurrentInstance() as ComponentInternalInstance
     const tableData = ref([{
       date: '2016-05-02',
@@ -301,7 +366,119 @@ export default defineComponent({
         }
       }
     ])
-
+    const tableData4 = reactive([{
+      id: '12987122',
+      name: '好滋好味鸡蛋仔',
+      category: '江浙小吃、小吃零食',
+      desc: '荷兰优质淡奶，奶香浓而不腻',
+      address: '上海市普陀区真北路',
+      shop: '王小虎夫妻店',
+      shopId: '10333'
+    }, {
+      id: '12987123',
+      name: '好滋好味鸡蛋仔',
+      category: '江浙小吃、小吃零食',
+      desc: '荷兰优质淡奶，奶香浓而不腻',
+      address: '上海市普陀区真北路',
+      shop: '王小虎夫妻店',
+      shopId: '10333'
+    }, {
+      id: '12987125',
+      name: '好滋好味鸡蛋仔',
+      category: '江浙小吃、小吃零食',
+      desc: '荷兰优质淡奶，奶香浓而不腻',
+      address: '上海市普陀区真北路',
+      shop: '王小虎夫妻店',
+      shopId: '10333'
+    }, {
+      id: '12987126',
+      name: '好滋好味鸡蛋仔',
+      category: '江浙小吃、小吃零食',
+      desc: '荷兰优质淡奶，奶香浓而不腻',
+      address: '上海市普陀区真北路',
+      shop: '王小虎夫妻店',
+      shopId: '10333'
+    }])
+    const tableData5 = reactive([{
+      id: 1,
+      date: '2016-05-02',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1518 弄'
+    }, {
+      id: 2,
+      date: '2016-05-04',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1517 弄'
+    }, {
+      id: 3,
+      date: '2016-05-01',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1519 弄',
+      children: [{
+        id: 31,
+        date: '2016-05-01',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1519 弄'
+      }, {
+        id: 32,
+        date: '2016-05-01',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1519 弄'
+      }]
+    }, {
+      id: 4,
+      date: '2016-05-03',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1516 弄'
+    }])
+    const columns9 = reactive([
+      {
+        prop: 'date',
+        label: '日期',
+        sortable: true,
+        width: 180
+      },
+      {
+        prop: 'name',
+        label: '姓名',
+        sortable: true,
+        width: 180
+      },
+      {
+        prop: 'address',
+        label: '地址',
+      }
+    ])
+    const expendsRowKey = ref([])
+    const getRowKey = row => row.id
+    const columns8 = reactive([
+      {
+        type: 'expand',
+        render(h, { row }) {
+          return h(ElForm, { labelPosition: 'left', inline: true, class: "demo-table-expand" }, () => [
+            h(ElFormItem, { label: '商品名称' }, () => row.name),
+            h(ElFormItem, { label: '所属店铺' }, () => row.shop),
+            h(ElFormItem, { label: '商品 ID' }, () => row.id),
+            h(ElFormItem, { label: '店铺 ID' }, () => row.shopId),
+            h(ElFormItem, { label: '商品分类' }, () => row.category),
+            h(ElFormItem, { label: '店铺地址' }, () => row.address),
+            h(ElFormItem, { label: '商品描述' }, () => row.desc),
+          ])
+        }
+      },
+      {
+        label: '商品 ID',
+        prop: 'id'
+      },
+      {
+        label: '商品名称',
+        prop: 'name'
+      },
+      {
+        label: '描述',
+        prop: 'desc'
+      },
+    ])
     const columns3 = reactive([
       {
         prop: 'date',
@@ -421,7 +598,7 @@ export default defineComponent({
         filters: [{ text: '2016-05-01', value: '2016-05-01' }, { text: '2016-05-02', value: '2016-05-02' }, { text: '2016-05-03', value: '2016-05-03' }, { text: '2016-05-04', value: '2016-05-04' }],
         filterMethod(value, row, column) {
           console.log("filterMethod", value, row);
-          
+
           const property = column['property'];
           return row[property] === value;
         }
@@ -457,6 +634,59 @@ export default defineComponent({
         }
       }
     ])
+
+    const columns7 = reactive([
+      {
+        label: '日期',
+        width: 180,
+        render(h, { row }) {
+          return h('div', {}, [
+            h('i', { class: 'el-icon-time' }),
+            h('span', { style: { marginLeft: 10 } }, row.date)
+          ])
+        }
+      },
+      {
+        label: '姓名',
+        width: 180,
+        render(h, { row }) {
+          return h(ElPopover, {
+            effect: 'light',
+            trigger: 'hover',
+            placement: 'top'
+          }, {
+            default: withCtx(() => [
+              h('p', {}, row.name),
+              h('p', {}, row.address),
+            ]),
+            reference: withCtx(() => [
+              h('div', {}, [
+                h(ElTag, {}, () => row.name)
+              ]),
+            ]),
+          })
+        }
+      },
+      {
+        label: '操作',
+        render(h, { row }) {
+          return h('div', {}, [
+            h(ElButton, { size: 'mini', onClick: (event) => { handleEdit(row) } }, () => '编辑'),
+            h(ElButton, { size: 'mini', type: 'danger', onClick: (event) => handleDelete(row) }, () => '删除')
+          ])
+        }
+      }
+    ])
+
+    const handleEdit = (row) => {
+      console.log(row);
+
+    }
+
+    const handleDelete = row => {
+      console.log(row);
+
+    }
     const setCurrent = (row: any) => {
       console.log("row", row);
       console.log(instance);
@@ -500,12 +730,19 @@ export default defineComponent({
       tableData,
       tableData2,
       tableData3,
+      tableData4,
+      tableData5,
       columns,
       columns2,
       columns3,
       columns4,
       columns5,
       columns6,
+      columns7,
+      columns8,
+      columns9,
+      expendsRowKey,
+      getRowKey,
       setCurrent,
       tableRowClassName,
       handleCurrentChange,
