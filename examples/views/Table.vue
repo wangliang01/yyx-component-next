@@ -218,11 +218,21 @@
       :columns="columns9"
     ></y-table>
   </section>
+
+  <!-- 自定义表头-->
+  <h3>自定义表头</h3>
+  <p class="desc">表头支持自定义。</p>
+  <section class="section">
+    <y-table
+      :data="tableData.filter(data => !searchValue || data.name.toLowerCase().includes(searchValue.toLowerCase()))"
+      :columns="columns10"
+    ></y-table>
+  </section>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, reactive, ref, ComponentInternalInstance, withCtx } from 'vue'
-import { ElButton, ElTag, ElPopover, ElForm, ElFormItem } from 'element-plus'
+import { defineComponent, getCurrentInstance, reactive, ref, ComponentInternalInstance, withCtx, h, nextTick } from 'vue'
+import { ElButton, ElTag, ElPopover, ElForm, ElFormItem, ElInput } from 'element-plus'
 interface IRowClassName {
   row: object,
   rowIndex: number
@@ -252,6 +262,8 @@ export default defineComponent({
       name: '王小虎',
       address: '上海市普陀区金沙江路 1516 弄'
     }])
+    const searchValue = ref('')
+    const filterTableData = ref([...tableData.value])
     const columns = reactive([
       {
         prop: 'date',
@@ -264,6 +276,40 @@ export default defineComponent({
       {
         prop: 'address',
         label: '地址',
+      }
+    ])
+    const columns10 = reactive([
+      {
+        prop: 'date',
+        label: '日期'
+      },
+      {
+        prop: 'name',
+        label: '姓名',
+      },
+      {
+        renderHeader(column, $index) {
+          return h(ElInput, {
+            placeholder: '输入关键字搜索',
+            size: "mini",
+            modelValue: searchValue.value,
+            onInput(value) {
+              searchValue.value = value
+              // 
+              nextTick(() => {
+                filterTableData.value = tableData.value.filter(item => item.name.includes(value))
+                console.log("filterTableData", filterTableData.value);
+              })
+              
+            }
+          })
+        },
+        render: (h, { row }) => {
+          return h('div', {}, [
+            h(ElButton, { size: 'mini', onClick: (event) => { handleEdit(row) } }, () => '编辑'),
+            h(ElButton, { size: 'mini', type: 'danger', onClick: (event) => handleDelete(row) }, () => '删除')
+          ])
+        }
       }
     ])
 
@@ -741,7 +787,10 @@ export default defineComponent({
       columns7,
       columns8,
       columns9,
+      columns10,
       expendsRowKey,
+      searchValue,
+      filterTableData,
       getRowKey,
       setCurrent,
       tableRowClassName,
